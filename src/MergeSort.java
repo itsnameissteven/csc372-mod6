@@ -12,6 +12,8 @@ public class MergeSort {
       splitArray(numbers, startingPoint, midPoint);
       // Split the right side
       splitArray(numbers, midPoint + 1, endingPoint);
+
+      mergeData(numbers, startingPoint, midPoint, endingPoint);
     }
   }
 
