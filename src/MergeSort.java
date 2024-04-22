@@ -1,7 +1,13 @@
 import java.util.ArrayList;
-public class MergeSort {
-  ArrayList<Integer> numbers;
-  public void splitArray(ArrayList<Integer> numbers, int startingPoint, int endingPoint) {
+import java.util.Comparator;
+
+public class MergeSort  {
+  Comparator<Student> comparer;
+  
+  MergeSort(Comparator<Student> comparer) {
+    this.comparer = comparer;
+  }
+  public void splitArray(ArrayList<Student> data, int startingPoint, int endingPoint) {
     int midPoint;
 
     // Only run if pointers do not cross paths
@@ -9,30 +15,30 @@ public class MergeSort {
       midPoint = (startingPoint + endingPoint) / 2;
 
       // Split the left side
-      splitArray(numbers, startingPoint, midPoint);
+      splitArray(data, startingPoint, midPoint);
       // Split the right side
-      splitArray(numbers, midPoint + 1, endingPoint);
+      splitArray(data, midPoint + 1, endingPoint);
 
-      mergeData(numbers, startingPoint, midPoint, endingPoint);
+      mergeData(data, startingPoint, midPoint, endingPoint);
     }
   }
 
-  public static void mergeData(ArrayList<Integer> numbers, int startingPoint, int midPoint, int endingPoint) {
+  public void mergeData(ArrayList<Student> data, int startingPoint, int midPoint, int endingPoint) {
     int tempSize = endingPoint - startingPoint + 1; // 
-    int[] tempArray = new int[tempSize];
+    Student[] tempArray = new Student[tempSize];
     int mergePos, leftPointer, rightPointer;
 
     mergePos = 0;
     leftPointer = startingPoint;
-    rightPointer = endingPoint + 1;
-
+    rightPointer = midPoint + 1;
+    
     // get the smallest element from each list, compare and insert into temp array.
     while (leftPointer <= midPoint && rightPointer <= endingPoint) {
-      if (numbers.indexOf(leftPointer) < numbers.indexOf(rightPointer)) {
-        tempArray[mergePos] = numbers.indexOf(leftPointer);
+      if (this.comparer.compare(data.get(leftPointer), data.get(rightPointer)) <0 ) {
+        tempArray[mergePos] = data.get(leftPointer);
         leftPointer++;
       } else {
-        tempArray[mergePos] = numbers.indexOf(rightPointer);
+        tempArray[mergePos] = data.get(rightPointer);
         rightPointer++;
       }
       mergePos++;
@@ -40,21 +46,27 @@ public class MergeSort {
 
     // Add remainder of first array to temp array
     while(leftPointer <= midPoint) {
-      tempArray[mergePos] = numbers.indexOf(leftPointer);
+      tempArray[mergePos] =  data.get(leftPointer);
       leftPointer++;
       mergePos++;
     }
 
     // Add remainder of second array to temp array
     while(rightPointer <= endingPoint) {
-      tempArray[mergePos] = numbers.indexOf(rightPointer);
+      tempArray[mergePos] = data.get(rightPointer);
       rightPointer++;
       mergePos++;
     }
 
     // Use temp array to copy back into original arrayList
     for(mergePos = 0; mergePos < tempSize; mergePos++) {
-      numbers.set(startingPoint + mergePos, tempArray[mergePos]);
+      try {
+        data.set(startingPoint + mergePos, tempArray[mergePos]);
+      } catch (Exception e) {
+        System.out.println("Error " + mergePos);
+        System.out.println("Error " + tempSize);
+        System.out.println(data);
+      }
     }
   }
 }
