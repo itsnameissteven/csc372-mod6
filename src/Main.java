@@ -4,7 +4,9 @@ public class Main {
   public static void main(String[] args) {
       ArrayList<Student> students = new ArrayList<>();
       RollnoComparator rollnoComparator = new RollnoComparator();
-      MergeSort<Student> mergeSort = new MergeSort<Student>(rollnoComparator);
+      NameComparator nameComparator = new NameComparator();
+      MergeSort mergeSort = new MergeSort (rollnoComparator);
+      MergeSort mergeSortName = new MergeSort(nameComparator);
 
       students.add(new Student(7, "David Lee", "741 Birch St"));
       students.add(new Student(1, "John Doe", "123 Main St"));
@@ -17,8 +19,10 @@ public class Main {
       students.add(new Student(2, "Alice Smith", "456 Elm St"));
       students.add(new Student(9, "James Clark", "369 Laurel St"));
 
-      mergeSort.splitArray(students, 0, students.size());
+      mergeSort.splitArray(students, 0, students.size() -1);
 
+      // System.out.println(students.toString());
+      System.out.println("sorted");
       for(Student student : students) {
         System.out.println(student.getRollno());
       }

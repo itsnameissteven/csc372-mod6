@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class MergeSort <T> {
-  Comparator<T> comparer;
+public class MergeSort  {
+  Comparator<Student> comparer;
   
-  MergeSort(Comparator<T> comparer) {
+  MergeSort(Comparator<Student> comparer) {
     this.comparer = comparer;
   }
-  public void splitArray(ArrayList<T> data, int startingPoint, int endingPoint) {
+  public void splitArray(ArrayList<Student> data, int startingPoint, int endingPoint) {
     int midPoint;
 
     // Only run if pointers do not cross paths
@@ -23,22 +23,22 @@ public class MergeSort <T> {
     }
   }
 
-  public void mergeData(ArrayList<T> data, int startingPoint, int midPoint, int endingPoint) {
+  public void mergeData(ArrayList<Student> data, int startingPoint, int midPoint, int endingPoint) {
     int tempSize = endingPoint - startingPoint + 1; // 
-    ArrayList<T> tempArray = new ArrayList<T>(tempSize);
+    Student[] tempArray = new Student[tempSize];
     int mergePos, leftPointer, rightPointer;
 
     mergePos = 0;
     leftPointer = startingPoint;
-    rightPointer = endingPoint + 1;
+    rightPointer = midPoint + 1;
     
     // get the smallest element from each list, compare and insert into temp array.
     while (leftPointer <= midPoint && rightPointer <= endingPoint) {
-      if (this.comparer.compare(data.get(leftPointer), data.get(rightPointer)) == -1) {
-        tempArray.set(mergePos, data.get(leftPointer)) ;
+      if (this.comparer.compare(data.get(leftPointer), data.get(rightPointer)) <0 ) {
+        tempArray[mergePos] = data.get(leftPointer);
         leftPointer++;
       } else {
-        tempArray.set(mergePos, data.get(rightPointer));
+        tempArray[mergePos] = data.get(rightPointer);
         rightPointer++;
       }
       mergePos++;
@@ -46,22 +46,27 @@ public class MergeSort <T> {
 
     // Add remainder of first array to temp array
     while(leftPointer <= midPoint) {
-      tempArray.set(mergePos, data.get(leftPointer));
+      tempArray[mergePos] =  data.get(leftPointer);
       leftPointer++;
       mergePos++;
     }
 
     // Add remainder of second array to temp array
     while(rightPointer <= endingPoint) {
-      tempArray.set(mergePos, data.get(rightPointer));
+      tempArray[mergePos] = data.get(rightPointer);
       rightPointer++;
       mergePos++;
     }
 
     // Use temp array to copy back into original arrayList
     for(mergePos = 0; mergePos < tempSize; mergePos++) {
-      System.out.println(mergePos);
-      data.set(startingPoint + mergePos, tempArray.get(mergePos));
+      try {
+        data.set(startingPoint + mergePos, tempArray[mergePos]);
+      } catch (Exception e) {
+        System.out.println("Error " + mergePos);
+        System.out.println("Error " + tempSize);
+        System.out.println(data);
+      }
     }
   }
 }
