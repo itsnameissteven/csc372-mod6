@@ -23,4 +23,8 @@ public class Student {
   public void setAddress(String address) {
     this.address = address;
   }
+  @Override
+  public String toString() {
+    return this.getRollno() + ", " + this.getName() + ", " + this.getAddress();
+  }
 }
