@@ -7,22 +7,25 @@ public class MergeSort  {
   MergeSort(Comparator<Student> comparer) {
     this.comparer = comparer;
   }
-  public void splitArray(ArrayList<Student> data, int startingPoint, int endingPoint) {
+
+  // A recursive method to split an array and sort data provided
+  public void sortArray(ArrayList<Student> data, int startingPoint, int endingPoint) {
     int midPoint;
 
     // Only run if pointers do not cross paths
     if(startingPoint < endingPoint) {
       midPoint = (startingPoint + endingPoint) / 2;
 
-      // Split the left side
-      splitArray(data, startingPoint, midPoint);
-      // Split the right side
-      splitArray(data, midPoint + 1, endingPoint);
-
+      // Recursively split the left side
+      sortArray(data, startingPoint, midPoint);
+      // Recursively split the right side
+      sortArray(data, midPoint + 1, endingPoint);
+      // Recursively call 
       mergeData(data, startingPoint, midPoint, endingPoint);
     }
   }
 
+  // Reorganizes data provided after comparing values.
   public void mergeData(ArrayList<Student> data, int startingPoint, int midPoint, int endingPoint) {
     int tempSize = endingPoint - startingPoint + 1; // 
     Student[] tempArray = new Student[tempSize];
@@ -60,13 +63,7 @@ public class MergeSort  {
 
     // Use temp array to copy back into original arrayList
     for(mergePos = 0; mergePos < tempSize; mergePos++) {
-      try {
-        data.set(startingPoint + mergePos, tempArray[mergePos]);
-      } catch (Exception e) {
-        System.out.println("Error " + mergePos);
-        System.out.println("Error " + tempSize);
-        System.out.println(data);
-      }
+      data.set(startingPoint + mergePos, tempArray[mergePos]);
     }
   }
 }
